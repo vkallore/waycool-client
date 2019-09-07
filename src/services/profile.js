@@ -21,7 +21,7 @@ export const getProfile = ({ ...params }) => {
   })
 }
 
-export const profileDelete = timeLogId => {
+export const doDeleteProfile = () => {
   return request.delete(`/profile/`, {
     headers: {
       [USER_API_KEY]: getLocalStorage(USER_API_KEY)

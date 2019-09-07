@@ -4,8 +4,8 @@ import { withRouter, Redirect } from 'react-router-dom'
 
 import { SvgLoader } from 'components/Common/Loaders'
 
-import { getProfileDetails } from 'actions/ProfileActions'
-
+import { clearMessage } from 'actions'
+import { getProfileDetails, deleteProfile } from 'actions/ProfileActions'
 import {
   FIELD_AGE,
   FIELD_USERNAME,
@@ -15,13 +15,15 @@ import {
   FIELD_NAME
 } from 'constants/AppForms'
 
+const AlertBox = React.lazy(() => import('components/Common/AlertBox'))
+
 class DashboardContainer extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
       email: '',
-      username: '',
+      userid: '',
       name: '',
       age: '',
       gender: '',
@@ -46,55 +48,72 @@ class DashboardContainer extends React.Component {
 
   render() {
     const { email, userid: username, name, age, gender, address } = this.state
-    const { ajaxProcessing } = this.props
+    const {
+      ajaxProcessing,
+      deleteProfile,
+      apiResponse,
+      apiResponseType,
+      allowMessageClear,
+      clearMessage
+    } = this.props
     return (
-      <div className="container">
-        <div className="columns">
-          <div className="column is-half table-container">
-            <table className="table is-fullwidth">
-              <tbody>
-                <tr>
-                  <th>{FIELD_EMAIL}</th>
-                  <td>{email}</td>
-                </tr>
-                <tr>
-                  <th>{FIELD_USERNAME}</th>
-                  <td>{username}</td>
-                </tr>
+      <>
+        <div className="container">
+          <div className="columns">
+            <div className="column is-half table-container">
+              <table className="table is-fullwidth">
+                <tbody>
+                  <tr>
+                    <th>{FIELD_EMAIL}</th>
+                    <td>{email}</td>
+                  </tr>
+                  <tr>
+                    <th>{FIELD_USERNAME}</th>
+                    <td>{username}</td>
+                  </tr>
 
-                <tr>
-                  <th>{FIELD_NAME}</th>
-                  <td>{name}</td>
-                </tr>
-                <tr>
-                  <th>{FIELD_AGE}</th>
-                  <td>{age}</td>
-                </tr>
-                <tr>
-                  <th>{FIELD_GENDER}</th>
-                  <td>{gender}</td>
-                </tr>
-                <tr>
-                  <th>{FIELD_ADDRESS}</th>
-                  <td>{address}</td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="columns">
-              <div className="column">
-                <a className="button is-info">Google</a>
-              </div>
-              <div className="column">
-                <a className="button is-warning">Facebook</a>
-              </div>
-              <div className="column">
-                <a className="button is-danger">Delete Account</a>
+                  <tr>
+                    <th>{FIELD_NAME}</th>
+                    <td>{name}</td>
+                  </tr>
+                  <tr>
+                    <th>{FIELD_AGE}</th>
+                    <td>{age}</td>
+                  </tr>
+                  <tr>
+                    <th>{FIELD_GENDER}</th>
+                    <td>{gender}</td>
+                  </tr>
+                  <tr>
+                    <th>{FIELD_ADDRESS}</th>
+                    <td>{address}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="columns">
+                <div className="column">
+                  <a className="button is-info">Google</a>
+                </div>
+                <div className="column">
+                  <a className="button is-warning">Facebook</a>
+                </div>
+                <div className="column">
+                  <a className="button is-danger" onClick={deleteProfile}>
+                    Delete Account
+                  </a>
+                </div>
               </div>
             </div>
           </div>
+          <div className="ajaxloader">{ajaxProcessing && <SvgLoader />}</div>
         </div>
-        <div className="ajaxloader">{ajaxProcessing && <SvgLoader />}</div>
-      </div>
+        <AlertBox
+          alertText={apiResponse}
+          alertType={apiResponseType}
+          allowMessageClear={allowMessageClear}
+          clearMessage={clearMessage}
+        />
+      </>
     )
   }
 }
@@ -111,8 +130,10 @@ export default withRouter(
   connect(
     mapStateToProps,
     {
-      getProfileDetails
-      //, clearMessage, deleteTimeLog, paginate, resetListingData
+      getProfileDetails,
+      deleteProfile,
+      clearMessage
+      //, paginate, resetListingData
     }
   )(DashboardContainer)
 )

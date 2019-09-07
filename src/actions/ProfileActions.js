@@ -1,4 +1,4 @@
-import { getProfile } from 'services/profile'
+import { getProfile, doDeleteProfile } from 'services/profile'
 
 import {
   errorHandler,
@@ -9,6 +9,8 @@ import {
   setListingData,
   buildApiParams
 } from 'actions'
+
+import { logout } from 'actions/AuthActions'
 
 import { toISOString } from 'helpers'
 
@@ -49,12 +51,18 @@ export const getProfileDetails = () => {
 }
 
 /**
- * Delete time log
- * @param {string} timeLogId
+ * Delete user profile
  */
-export const deleteTimeLog = timeLogId => {
+export const deleteProfile = () => {
   return async dispatch => {
     try {
+      if (
+        !window.confirm(
+          "You are about to delete your account! Cancel to 'Rethink'!"
+        )
+      ) {
+        return
+      }
       dispatch(setAjaxProcessing(true))
 
       dispatch(clearMessage())
@@ -67,47 +75,19 @@ export const deleteTimeLog = timeLogId => {
         return []
       }
 
-      const response = [] // await timeLogDelete(timeLogId)
+      const response = await doDeleteProfile()
 
       dispatch(setAjaxProcessing(false))
+
+      dispatch(logout())
+
       dispatchMessage(
         dispatch,
-        TIME_LOG_DELETE_SUCCESS,
+        response.data.message,
         null,
         CSS_CLASS_SUCCESS,
         true
       )
-
-      return response.data
-    } catch (error) {
-      errorHandler(dispatch, error, true)
-      dispatch(setAjaxProcessing(false))
-      return []
-    }
-  }
-}
-
-/**
- * Get all categories
- * @param {object} - Filter options
- */
-export const allCategories = () => {
-  return async dispatch => {
-    try {
-      dispatch(setAjaxProcessing(true))
-
-      /**
-       * Check whether user is already logged in or not
-       */
-      const statusIsLoggedIn = await checkLoggedInStatus(dispatch)
-
-      if (!statusIsLoggedIn) {
-        return []
-      }
-
-      const response = [] //await getCategories()
-
-      dispatch(setAjaxProcessing(false))
 
       return response.data
     } catch (error) {
