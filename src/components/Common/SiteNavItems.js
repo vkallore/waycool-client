@@ -1,5 +1,5 @@
 import React from 'react'
-import { TEXT_LOGIN, TEXT_HOME, TEXT_REGISTER } from 'constants/AppLanguage'
+import { TEXT_LOGIN, TEXT_REGISTER } from 'constants/AppLanguage'
 import TopNavBar from 'components/Common/TopNavBar'
 
 const Link = require('react-router-dom').Link
@@ -7,9 +7,6 @@ const Link = require('react-router-dom').Link
 const SiteNavItems = () => (
   <TopNavBar>
     <div className="navbar-start">
-      <Link className="navbar-item" to="/" title={TEXT_HOME}>
-        {TEXT_HOME}
-      </Link>
       <Link className="navbar-item" to="/login" title={TEXT_LOGIN}>
         {TEXT_LOGIN}
       </Link>
@@ -19,7 +16,7 @@ const SiteNavItems = () => (
         <div className="buttons">
           <Link
             className="navbar-item button is-primary"
-            to="/register"
+            to="/"
             title={TEXT_REGISTER}
           >
             {TEXT_REGISTER}

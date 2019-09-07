@@ -8,9 +8,7 @@ export const CHANGE_FORM = 'CHANGE_FORM'
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 
 /* Header/Localstorage */
-export const USER_API_KEY = 'x-token'
-export const USER_API_KEY_EXPIRY = 'x-token-expiry'
-export const USER_REFRESH_TOKEN = 'x-refresh-token'
+export const USER_API_KEY = 'x-api-key'
 
 /* HTML/CSS related constants */
 export const CSS_CLASS_SUCCESS = 'success'
@@ -18,9 +16,6 @@ export const CSS_CLASS_DANGER = 'danger'
 export const CSS_CLASS_INFO = 'info'
 export const CSS_CLASS_WARNING = 'warning'
 export const CSS_CLASS_DEFAILT = 'defailt'
-
-export const VALID_PATTERN_PASSWORD =
-  '(?=^.{8,}$)((?=.*d)|(?=.*W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
 
 /* Dashboard Menu Items */
 export const MENU_LIST = 'List'

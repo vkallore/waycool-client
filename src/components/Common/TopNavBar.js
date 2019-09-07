@@ -1,5 +1,5 @@
 import React from 'react'
-import { TITLE_SITE } from 'constants/AppLanguage'
+import { TITLE_REGISTER } from 'constants/AppLanguage'
 import { LOGO } from 'constants/ImageAssets'
 import { useToggleState } from 'helpers/HooksHelpers'
 
@@ -19,7 +19,7 @@ const TopNavBar = ({ children }) => {
       <div className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item">
-            <img src={LOGO} alt={TITLE_SITE} />
+            <img src={LOGO} alt={TITLE_REGISTER} />
           </Link>
           <div
             className={`navbar-burger burger ${menuClassName}`}

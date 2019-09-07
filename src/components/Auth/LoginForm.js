@@ -1,17 +1,16 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faEnvelope,
   faLock,
   faEye,
-  faEyeSlash
+  faEyeSlash,
+  faUser
 } from '@fortawesome/free-solid-svg-icons'
 
 import Input from 'components/FormElements/Input'
 import Button from 'components/FormElements/Button'
 import { SvgLoader } from 'components/Common/Loaders'
 
-import { VALID_PATTERN_PASSWORD } from 'constants/AppConstants'
 import { TEXT_LOGIN } from 'constants/AppLanguage'
 import { FIELD_USERNAME, FIELD_PASSWORD } from 'constants/AppForms'
 
@@ -33,7 +32,7 @@ const LoginForm = props => {
         <label>{FIELD_USERNAME}:</label>
         <p className="control has-icons-left">
           <Input
-            type="email"
+            type="text"
             name="username"
             placeholder={FIELD_USERNAME}
             formModel={formModel}
@@ -41,7 +40,7 @@ const LoginForm = props => {
             autoFocus
           />
           <span className="icon is-small is-left">
-            <FontAwesomeIcon icon={faEnvelope} />
+            <FontAwesomeIcon icon={faUser} />
           </span>
         </p>
       </div>
@@ -54,7 +53,6 @@ const LoginForm = props => {
             placeholder={FIELD_PASSWORD}
             formModel={formModel}
             required={true}
-            pattern={VALID_PATTERN_PASSWORD}
           />
           <span className="icon is-small is-left">
             <FontAwesomeIcon icon={faLock} />

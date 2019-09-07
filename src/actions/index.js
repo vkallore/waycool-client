@@ -182,12 +182,12 @@ export const setLoggedIn = loggedIn => {
 
 /**
  * Set user data to local storage
- * @param  {...any} tokenData
+ * @param  {...any} loginData
  */
-export const setUserData = ({ ...tokenData }) => {
-  const { token } = tokenData
+export const setUserData = ({ ...loginData }) => {
+  const { api_key } = loginData
 
-  setLocalStorage(USER_API_KEY, token)
+  setLocalStorage(USER_API_KEY, api_key)
 }
 
 /**

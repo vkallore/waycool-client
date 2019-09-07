@@ -8,12 +8,6 @@ import { ContentLoader } from 'components/Common/Loaders'
 
 import { clearMessage } from 'actions'
 
-/* No Lazy Load for nested route components */
-// import TimeLogLayout from 'components/Dashboard/TimeLog/TimeLogLayout'
-
-const HomeContainer = React.lazy(() =>
-  import('components/Site/Home/HomeContainer')
-)
 const LoginContainer = React.lazy(() =>
   import('components/Auth/LoginContainer')
 )
@@ -43,17 +37,11 @@ class Routes extends React.Component {
     return (
       <Suspense fallback={<ContentLoader />}>
         <Switch>
-          <PublicRoute exact={true} path="/" component={HomeContainer} />
+          <PublicRoute exact={true} path="/" component={RegisterContainer} />
           <PublicRoute path="/login" component={LoginContainer} />
-          <PublicRoute path="/register" component={RegisterContainer} />
 
           <ProtectedRoute path="/dashboard" component={DashboardContainer} />
           <ProtectedRoute path="/logout" component={LogoutView} />
-          {/* <ProtectedRoute
-            path="/time-log"
-            lazyLoad={false}
-            component={TimeLogLayout}
-          /> */}
 
           <PublicRoute path="*" component={PageNotFoundContainer} />
         </Switch>

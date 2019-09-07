@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 
 import Routes from 'routes'
 
-import { TITLE_SITE } from 'constants/AppLanguage'
+import { TITLE_REGISTER } from 'constants/AppLanguage'
 
 const CommonModal = React.lazy(() => import('components/Common/CommonModal'))
 
@@ -14,7 +14,7 @@ class App extends Component {
       <React.Fragment>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{TITLE_SITE}</title>
+          <title>{TITLE_REGISTER}</title>
           {/* <link rel="canonical" href="" /> */}
         </Helmet>
         <Router>

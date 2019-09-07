@@ -39,11 +39,11 @@ export const login = ({ username, password }) => {
 
       if (userData.api_key) {
         setUserData(userData)
-      }
 
-      dispatch(resetForm(FORM_LOGIN))
-      dispatch(setLoggedIn(true))
-      dispatch(setAjaxProcessing(false))
+        dispatch(resetForm(FORM_LOGIN))
+        dispatch(setLoggedIn(true))
+        dispatch(setAjaxProcessing(false))
+      }
       return userData
     } catch (error) {
       errorHandler(dispatch, error, true)

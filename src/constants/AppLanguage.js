@@ -1,10 +1,8 @@
 const TITLE_DASH = ' - '
 export const APP_NAME = 'WayCool'
-export const TEXT_HOME = 'Home'
 export const TEXT_LOGIN = 'Login'
 export const TEXT_REGISTER = 'Create Account'
 export const TEXT_RE_REGISTER = 'Re-Create Account'
-export const TITLE_SITE = `${TEXT_HOME} ${TITLE_DASH} ${APP_NAME}`
 export const TITLE_LOGIN = `${TEXT_LOGIN} ${TITLE_DASH} ${APP_NAME}`
 export const TITLE_REGISTER = `${TEXT_REGISTER} ${TITLE_DASH} ${APP_NAME}`
 
