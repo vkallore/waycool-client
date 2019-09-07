@@ -1,7 +1,8 @@
 import React from 'react'
-import Link from 'react-router-dom/Link'
 import { TEXT_DASHBOARD, TEXT_LOGOUT } from 'constants/AppLanguage'
 import TopNavBar from 'components/Common/TopNavBar'
+
+const Link = require('react-router-dom').Link
 
 const DashboardNavItems = () => (
   <TopNavBar>

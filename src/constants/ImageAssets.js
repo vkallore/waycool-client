@@ -1,1 +1,1 @@
-export const LOGO = require('assets/img/flip-logo.png')
+export const LOGO = require('assets/img/logo.jpg')

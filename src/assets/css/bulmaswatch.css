@@ -2157,8 +2157,7 @@ a.box:active {
     width: 100%; }
   .input.is-inline,
   .textarea.is-inline {
-    display: inline;
-    width: auto; }
+    display: inline; }
 
 .input.is-rounded {
   border-radius: 290486px;
@@ -3990,6 +3989,7 @@ a.list-item {
   flex-direction: column;
   max-height: calc(100vh - 40px);
   overflow: hidden;
+  overflow-y: visible;
   -ms-overflow-y: visible; }
 
 .modal-card-head,

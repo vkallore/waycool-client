@@ -1,4 +1,4 @@
-# .env file content
+# `.env` file content
 
 ```
 REACT_APP_NODE_PATH=src/
@@ -128,7 +128,7 @@ server {
 
     include pmt-config/pmt-proxy-delete.conf;
 
-    proxy_pass http://waycool.local/;
+    proxy_pass http://127.0.0.1:5080/api/;
   }
 }
 ```

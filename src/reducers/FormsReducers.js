@@ -1,5 +1,5 @@
 import { RESET_FORM, CHANGE_FORM } from 'constants/AppConstants'
-import { FORM_LOGIN, FORM_REGISTER, FORM_TIME_LOG } from 'constants/AppForms'
+import { FORM_LOGIN, FORM_REGISTER } from 'constants/AppForms'
 
 const initialState = {
   login: {
@@ -7,16 +7,21 @@ const initialState = {
     password: ''
   },
   register: {
-    username: '',
-    password: ''
-  },
-  timeLog: {
-    category: '',
-    duration: '',
-    taskName: '',
-    startDate: '',
-    startTime: ''
+    name: '',
+    age: '',
+    gender: '',
+    location: '',
+    latitude: '',
+    longitude: '',
+    email: ''
   }
+  // timeLog: {
+  //   category: '',
+  //   duration: '',
+  //   taskName: '',
+  //   startDate: '',
+  //   startTime: ''
+  // }
 }
 
 export const formsReducer = (state = initialState, action) => {
@@ -42,11 +47,6 @@ const resetForm = (state, action) => {
         ...state,
         register: initialState.register
       }
-    case FORM_TIME_LOG:
-      return {
-        ...state,
-        timeLog: initialState.timeLog
-      }
     default:
       break
   }
@@ -63,11 +63,6 @@ const updateForm = (state, action) => {
       return {
         ...state,
         register: { ...state.register, ...action.newState }
-      }
-    case FORM_TIME_LOG:
-      return {
-        ...state,
-        timeLog: { ...state.timeLog, ...action.newState }
       }
     default:
       return state

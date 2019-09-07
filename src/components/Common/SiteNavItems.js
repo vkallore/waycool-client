@@ -1,7 +1,8 @@
 import React from 'react'
-import Link from 'react-router-dom/Link'
 import { TEXT_LOGIN, TEXT_HOME, TEXT_REGISTER } from 'constants/AppLanguage'
 import TopNavBar from 'components/Common/TopNavBar'
+
+const Link = require('react-router-dom').Link
 
 const SiteNavItems = () => (
   <TopNavBar>

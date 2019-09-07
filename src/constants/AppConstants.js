@@ -8,8 +8,8 @@ export const CHANGE_FORM = 'CHANGE_FORM'
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 
 /* Header/Localstorage */
-export const USER_TOKEN = 'x-token'
-export const USER_TOKEN_EXPIRY = 'x-token-expiry'
+export const USER_API_KEY = 'x-token'
+export const USER_API_KEY_EXPIRY = 'x-token-expiry'
 export const USER_REFRESH_TOKEN = 'x-refresh-token'
 
 /* HTML/CSS related constants */

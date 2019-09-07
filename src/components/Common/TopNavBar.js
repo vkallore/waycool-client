@@ -1,8 +1,9 @@
 import React from 'react'
-import Link from 'react-router-dom/Link'
 import { TITLE_SITE } from 'constants/AppLanguage'
 import { LOGO } from 'constants/ImageAssets'
 import { useToggleState } from 'helpers/HooksHelpers'
+
+const Link = require('react-router-dom').Link
 
 const TopNavBar = ({ children }) => {
   const [currentState, setToggleState] = useToggleState(false)

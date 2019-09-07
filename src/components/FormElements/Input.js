@@ -23,7 +23,6 @@ class Input extends React.Component {
   setInValidMessage({ target }) {
     const { type, validity } = target
     let inValidMessage = ''
-    console.log(validity)
     if (validity.badInput) {
       switch (type) {
         case 'number':

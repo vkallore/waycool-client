@@ -34,7 +34,7 @@ export const login = ({ username, password }) => {
 
       const { data: userData } = await doLogin({ username, password })
 
-      if (userData.token) {
+      if (userData.api_key) {
         setUserData(userData)
       }
 
@@ -55,13 +55,10 @@ export const login = ({ username, password }) => {
  * @param {string} username
  * @param {string} password
  */
-export const register = ({ username, password }) => {
+export const register = formData => {
+  console.log(formData)
   return async dispatch => {
     dispatch(setAjaxProcessing(true))
-    let newFormData = {
-      username,
-      password
-    }
 
     try {
       dispatch(clearMessage())
@@ -74,7 +71,7 @@ export const register = ({ username, password }) => {
         return []
       }
 
-      const response = await doRegister(newFormData)
+      const response = await doRegister(formData)
 
       dispatch(setAjaxProcessing(false))
       if (response.data.id) {

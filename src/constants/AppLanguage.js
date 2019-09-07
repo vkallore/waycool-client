@@ -1,5 +1,5 @@
 const TITLE_DASH = ' - '
-export const APP_NAME = 'Project Management App'
+export const APP_NAME = 'WayCool'
 export const TEXT_HOME = 'Home'
 export const TEXT_LOGIN = 'Login'
 export const TEXT_REGISTER = 'Create Account'
