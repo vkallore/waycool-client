@@ -47,7 +47,7 @@ if ($request_method = 'OPTIONS') {
   #
   # Custom headers and headers various browsers *should* be OK with but aren't
   #
-  add_header Access-Control-Allow-Headers 'Authorization,Accept,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,Range,User-Agent,X-Mx-ReqToken,X-Requested-With';
+  add_header Access-Control-Allow-Headers 'Authorization,Accept,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,Range,User-Agent,X-Mx-ReqToken,X-Requested-With,x-api-key';
 
   #
   # Tell client that this pre-flight info is valid for 20 days

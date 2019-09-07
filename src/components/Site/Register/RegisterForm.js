@@ -124,7 +124,7 @@ const RegisterForm = props => {
             className="button"
             onClick={getGeoLocation}
             href="#"
-            disabled={gettingLocation}
+            disabled={ajaxProcessing || gettingLocation}
           >
             {gettingLocation ? 'Getting location' : 'Get location'}
             <span className="icon is-small is-left">

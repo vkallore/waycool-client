@@ -1,4 +1,4 @@
-import { getTimeLog, timeLogDelete, getCategories } from 'services/timeLog'
+import { getProfile } from 'services/profile'
 
 import {
   errorHandler,
@@ -13,18 +13,14 @@ import {
 import { toISOString } from 'helpers'
 
 import { CSS_CLASS_SUCCESS } from 'constants/AppConstants'
-import {
-  TIME_LOG_ADD_SUCCESS,
-  TIME_LOG_DELETE_SUCCESS
-} from 'constants/AppMessage'
-import { FORM_TIME_LOG } from 'constants/AppForms'
+import { TIME_LOG_DELETE_SUCCESS } from 'constants/AppMessage'
 
 const perPage = process.env.PER_PAGE || 10
 
 /**
- * Get time logs
+ * Get profile details
  */
-export const getTimeLogs = () => {
+export const getProfileDetails = () => {
   return async dispatch => {
     try {
       dispatch(setAjaxProcessing(true))
@@ -37,23 +33,13 @@ export const getTimeLogs = () => {
         return []
       }
 
-      const params = buildApiParams()
-
-      const response = await getTimeLog(params)
+      const response = await getProfile()
 
       dispatch(setAjaxProcessing(false))
 
-      const data = response.data || []
+      const { data: profileDetails } = response.data || []
 
-      dispatch(
-        setListingData({
-          data: data.data,
-          totalRecords: data.totalRecords,
-          perPage
-        })
-      )
-
-      return []
+      return profileDetails
     } catch (error) {
       errorHandler(dispatch, error, true)
       dispatch(setAjaxProcessing(false))
@@ -81,7 +67,7 @@ export const deleteTimeLog = timeLogId => {
         return []
       }
 
-      const response = await timeLogDelete(timeLogId)
+      const response = [] // await timeLogDelete(timeLogId)
 
       dispatch(setAjaxProcessing(false))
       dispatchMessage(
@@ -119,7 +105,7 @@ export const allCategories = () => {
         return []
       }
 
-      const response = await getCategories()
+      const response = [] //await getCategories()
 
       dispatch(setAjaxProcessing(false))
 
