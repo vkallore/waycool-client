@@ -1,5 +1,12 @@
-import { RESET_FORM, CHANGE_FORM } from 'constants/AppConstants'
+import {
+  RESET_FORM,
+  CHANGE_FORM,
+  SET_ADDRESS,
+  SET_LOCATION,
+  RE_CREATE_ACCOUNT
+} from 'constants/AppConstants'
 import { FORM_LOGIN, FORM_REGISTER } from 'constants/AppForms'
+import { TEXT_REGISTER, TEXT_RE_REGISTER } from 'constants/AppLanguage'
 
 const initialState = {
   login: {
@@ -10,10 +17,12 @@ const initialState = {
     name: '',
     age: '',
     gender: '',
-    location: '',
+    address: '',
     latitude: '',
     longitude: '',
-    email: ''
+    email: '',
+    recreate_confirm: '',
+    regBtnText: TEXT_REGISTER
   }
   // timeLog: {
   //   category: '',
@@ -30,6 +39,33 @@ export const formsReducer = (state = initialState, action) => {
       return resetForm(state, action)
     case CHANGE_FORM:
       return updateForm(state, action)
+    case SET_ADDRESS:
+      return {
+        ...state,
+        register: {
+          ...state.register,
+          address: action.address
+        }
+      }
+    case SET_LOCATION:
+      return {
+        ...state,
+        register: {
+          ...state.register,
+          latitude: action.position.lat,
+          longitude: action.position.long
+        }
+      }
+    case RE_CREATE_ACCOUNT:
+      console.log(TEXT_RE_REGISTER)
+      return {
+        ...state,
+        register: {
+          ...state.register,
+          recreate_confirm: 1,
+          regBtnText: TEXT_RE_REGISTER
+        }
+      }
     default:
       return state
   }

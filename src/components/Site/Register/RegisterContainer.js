@@ -10,7 +10,7 @@ import RegisterForm from 'components/Site/Register/RegisterForm'
 import { FORM_REGISTER } from 'constants/AppForms'
 import { TITLE_REGISTER, TEXT_REGISTER } from 'constants/AppLanguage'
 
-import { clearMessage } from 'actions'
+import { clearMessage, getGeoLocation } from 'actions'
 
 const AlertBox = React.lazy(() => import('components/Common/AlertBox'))
 
@@ -27,6 +27,8 @@ class RegisterContainer extends React.Component {
     }
     const {
       ajaxProcessing,
+      gettingLocation,
+      getGeoLocation,
       formFields,
       apiResponse,
       apiResponseType,
@@ -44,6 +46,8 @@ class RegisterContainer extends React.Component {
             <RegisterForm
               handleSubmit={this.handleSubmit}
               ajaxProcessing={ajaxProcessing}
+              gettingLocation={gettingLocation}
+              getGeoLocation={getGeoLocation}
               formFields={formFields}
               formModel={FORM_REGISTER}
             />
@@ -63,6 +67,7 @@ class RegisterContainer extends React.Component {
 const mapStateToProps = state => ({
   loggedIn: state.common.loggedIn,
   ajaxProcessing: state.common.ajaxProcessing,
+  gettingLocation: state.common.gettingLocation,
   formFields: state.forms.register,
   apiResponse: state.common.apiResponse,
   apiResponseType: state.common.apiResponseType,
@@ -74,7 +79,8 @@ export default withRouter(
     mapStateToProps,
     {
       register,
-      clearMessage
+      clearMessage,
+      getGeoLocation
     }
   )(RegisterContainer)
 )

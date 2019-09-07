@@ -13,7 +13,8 @@ class CommonModal extends React.Component {
       modalBody,
       primaryBtnText,
       showSecondaryBtn,
-      secondaryBtnText
+      secondaryBtnText,
+      btnSecondaryBtnOnClick
     } = modal
     if (showModal !== true) {
       return null
@@ -40,7 +41,10 @@ class CommonModal extends React.Component {
               {primaryBtnText}
             </button>
             {showSecondaryBtn ? (
-              <button className="button is-secondary">
+              <button
+                className="button is-secondary"
+                onClick={btnSecondaryBtnOnClick}
+              >
                 {secondaryBtnText}
               </button>
             ) : null}

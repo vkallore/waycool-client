@@ -1,4 +1,5 @@
 import { queryParse, stringify } from 'services'
+import { geoLocation } from 'services/common'
 
 import {
   SHOW_MODAL,
@@ -13,7 +14,10 @@ import {
   RESET_FORM,
   LISTING_DATA_UPDATE,
   PAGE_CHANGED,
-  RESET_LISTING_DATA
+  RESET_LISTING_DATA,
+  GETTING_GEO_ADDRESS,
+  SET_ADDRESS,
+  SET_LOCATION
 } from 'constants/AppConstants'
 import {
   API_ERROR_404,
@@ -186,24 +190,6 @@ export const setUserData = ({ ...tokenData }) => {
   setLocalStorage(USER_API_KEY, token)
 }
 
-// /**
-//  * Dispatch modal message
-//  * @param {*} dispatch
-//  * @param {*} message
-//  */
-// const dispatchModalMessage = (dispatch, message) => {
-//   dispatch({
-//     type: SHOW_MODAL,
-//     modal: {
-//       showModal: true,
-//       backDrop: true,
-//       modalTitle: '',
-//       modalBody: message,
-//       primaryBtnText: 'Okay'
-//     }
-//   })
-// }
-
 /**
  * Set local storage
  * @param {*} key
@@ -345,4 +331,66 @@ export const buildApiParams = () => {
   const offset = (currentPage - 1) * perPage
 
   return { offset, limit: perPage, ...query }
+}
+
+const setUserLocationFlag = gettingLocation => {
+  return { type: GETTING_GEO_ADDRESS, gettingLocation }
+}
+
+const setUserAddress = address => {
+  return { type: SET_ADDRESS, address }
+}
+
+const setUserLocation = position => {
+  return { type: SET_LOCATION, position }
+}
+
+export const getGeoLocation = () => {
+  return dispatch => {
+    dispatch(setUserLocationFlag(true))
+
+    const location = window.navigator && window.navigator.geolocation
+
+    if (location) {
+      location.getCurrentPosition(
+        async position => {
+          let formattedAddress = ''
+          try {
+            const params = {
+              lat: position.coords.latitude,
+              long: position.coords.longitude
+            }
+            const response = await geoLocation(params)
+            const { data: mapsData } = response.data
+
+            dispatch(setUserLocationFlag(false))
+
+            formattedAddress = mapsData.results[0].formatted_address
+
+            dispatch(setUserLocation(params))
+          } catch (error) {
+            errorHandler(dispatch, error, true)
+            dispatch(setUserLocationFlag(false))
+          }
+
+          dispatch(setUserAddress(formattedAddress))
+        },
+        error => {
+          dispatch(setUserLocationFlag(false))
+          if (error.code === 1) {
+            dispatch({
+              type: SHOW_MODAL,
+              modal: {
+                showModal: true,
+                backDrop: true,
+                modalTitle: error.message,
+                modalBody: 'Please allow location!',
+                primaryBtnText: 'Okay'
+              }
+            })
+          }
+        }
+      )
+    }
+  }
 }

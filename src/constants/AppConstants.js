@@ -16,6 +16,7 @@ export const USER_REFRESH_TOKEN = 'x-refresh-token'
 export const CSS_CLASS_SUCCESS = 'success'
 export const CSS_CLASS_DANGER = 'danger'
 export const CSS_CLASS_INFO = 'info'
+export const CSS_CLASS_WARNING = 'warning'
 export const CSS_CLASS_DEFAILT = 'defailt'
 
 export const VALID_PATTERN_PASSWORD =
@@ -28,3 +29,9 @@ export const MENU_ADD = 'Add'
 export const LISTING_DATA_UPDATE = 'LISTING_DATA_UPDATE'
 export const PAGE_CHANGED = 'PAGE_CHANGED'
 export const RESET_LISTING_DATA = 'RESET_LISTING_DATA'
+
+// Create Account
+export const SET_ADDRESS = 'SET_ADDRESS'
+export const SET_LOCATION = 'SET_LOCATION'
+export const GETTING_GEO_ADDRESS = 'GETTING_GEO_ADDRESS'
+export const RE_CREATE_ACCOUNT = 'RE_CREATE_ACCOUNT'

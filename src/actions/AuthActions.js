@@ -1,5 +1,8 @@
-import { CSS_CLASS_SUCCESS } from 'constants/AppConstants'
-import { REGISTER_SUCCESS } from 'constants/AppMessage'
+import {
+  CSS_CLASS_SUCCESS,
+  CSS_CLASS_WARNING,
+  RE_CREATE_ACCOUNT
+} from 'constants/AppConstants'
 import { FORM_LOGIN, FORM_REGISTER } from 'constants/AppForms'
 import {
   errorHandler,
@@ -74,9 +77,22 @@ export const register = formData => {
       const response = await doRegister(formData)
 
       dispatch(setAjaxProcessing(false))
-      if (response.data.id) {
+      if (response.status === 201) {
         dispatch(resetForm(FORM_REGISTER))
-        dispatchMessage(dispatch, REGISTER_SUCCESS, null, CSS_CLASS_SUCCESS)
+        dispatchMessage(
+          dispatch,
+          response.data.message,
+          null,
+          CSS_CLASS_SUCCESS
+        )
+      } else if (response.status === 202) {
+        dispatchMessage(
+          dispatch,
+          response.data.message,
+          null,
+          CSS_CLASS_WARNING
+        )
+        dispatch(confirmReCreate())
       }
       return []
     } catch (error) {
@@ -95,4 +111,8 @@ export const logout = () => {
     dispatch(setLoggedIn(false))
     setUserData()
   }
+}
+
+const confirmReCreate = () => {
+  return { type: RE_CREATE_ACCOUNT }
 }

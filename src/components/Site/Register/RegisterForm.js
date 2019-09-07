@@ -5,7 +5,8 @@ import {
   faUser,
   faChild,
   faGenderless,
-  faMap
+  faMap,
+  faMapMarkerAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 import Input from 'components/FormElements/Input'
@@ -13,7 +14,6 @@ import Select from 'components/FormElements/Select'
 import Button from 'components/FormElements/Button'
 import { SvgLoader } from 'components/Common/Loaders'
 
-import { TEXT_REGISTER } from 'constants/AppLanguage'
 import {
   FIELD_EMAIL,
   FIELD_NAME,
@@ -26,7 +26,16 @@ import {
 } from 'constants/AppForms'
 
 const RegisterForm = props => {
-  const { formFields, handleSubmit, ajaxProcessing, formModel } = props
+  const {
+    formFields,
+    handleSubmit,
+    ajaxProcessing,
+    formModel,
+    gettingLocation,
+    getGeoLocation
+  } = props
+
+  const { regBtnText } = formFields
 
   const submitForm = event => {
     event.preventDefault()
@@ -47,6 +56,21 @@ const RegisterForm = props => {
           />
           <span className="icon is-small is-left">
             <FontAwesomeIcon icon={faUser} />
+          </span>
+        </p>
+      </div>
+      <div className="field">
+        <label>{FIELD_EMAIL}:</label>
+        <p className="control has-icons-left">
+          <Input
+            type="email"
+            name="email"
+            placeholder={FIELD_EMAIL}
+            formModel={formModel}
+            required={true}
+          />
+          <span className="icon is-small is-left">
+            <FontAwesomeIcon icon={faEnvelope} />
           </span>
         </p>
       </div>
@@ -89,43 +113,36 @@ const RegisterForm = props => {
             formModel={formModel}
             required={true}
           />
-          <Input
-            type="text"
-            name="latitude"
-            formModel={formModel}
-            required={true}
-          />
-          <Input
-            type="text"
-            name="longitude"
-            formModel={formModel}
-            required={true}
-          />
           <span className="icon is-small is-left">
             <FontAwesomeIcon icon={faMap} />
           </span>
         </p>
       </div>
       <div className="field">
-        <label>{FIELD_EMAIL}:</label>
-        <p className="control has-icons-left">
-          <Input
-            type="email"
-            name="username"
-            placeholder={FIELD_EMAIL}
-            formModel={formModel}
-            required={true}
-          />
-          <span className="icon is-small is-left">
-            <FontAwesomeIcon icon={faEnvelope} />
-          </span>
-        </p>
+        <label>
+          <a
+            className="button"
+            onClick={getGeoLocation}
+            href="#"
+            disabled={gettingLocation}
+          >
+            {gettingLocation ? 'Getting location' : 'Get location'}
+            <span className="icon is-small is-left">
+              &nbsp;
+              <FontAwesomeIcon icon={faMapMarkerAlt} />
+            </span>
+          </a>
+        </label>
+        <Input type="hidden" name="latitude" formModel={formModel} />
+        <Input type="hidden" name="longitude" formModel={formModel} />
+        <Input type="hidden" name="recreate_confirm" formModel={formModel} />
       </div>
+
       <div className="buttons is-centered">
         <Button
-          text={TEXT_REGISTER}
+          text={regBtnText}
           className="is-info"
-          disabled={ajaxProcessing}
+          disabled={ajaxProcessing || gettingLocation}
         />
       </div>
       <div className="ajaxloader">{ajaxProcessing && <SvgLoader />}</div>

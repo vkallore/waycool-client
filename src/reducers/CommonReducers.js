@@ -4,7 +4,9 @@ import {
   SET_AJAX_PROCESSING,
   SET_LOGGED_IN,
   SHOW_MESSAGE,
-  CLEAR_MESSAGE
+  CLEAR_MESSAGE,
+  GETTING_GEO_ADDRESS,
+  CHANGE_FORM
 } from 'constants/AppConstants'
 
 const initialState = {
@@ -19,6 +21,7 @@ const initialState = {
     secondaryBtnText: 'Cancel'
   },
   ajaxProcessing: false,
+  gettingLocation: false,
   loggedIn: false,
   apiResponse: '',
   apiResponseType: '',
@@ -37,12 +40,18 @@ export const commonReducer = (state = initialState, action) => {
       return setLoggedIn(state, action)
     case SHOW_MESSAGE:
       return showMessage(state, action)
+    case CHANGE_FORM:
     case CLEAR_MESSAGE:
       return showMessage(state, {
         apiResponse: '',
         apiResponseType: '',
         allowMessageClear: false
       })
+    case GETTING_GEO_ADDRESS:
+      return {
+        ...state,
+        gettingLocation: action.gettingLocation
+      }
     default:
       return state
   }
