@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 
+import { SvgLoader } from 'components/Common/Loaders'
+
 import { getProfileDetails } from 'actions/ProfileActions'
 
 import {
@@ -44,6 +46,7 @@ class DashboardContainer extends React.Component {
 
   render() {
     const { email, userid: username, name, age, gender, address } = this.state
+    const { ajaxProcessing } = this.props
     return (
       <div className="container">
         <div className="columns">
@@ -77,8 +80,20 @@ class DashboardContainer extends React.Component {
                 </tr>
               </tbody>
             </table>
+            <div className="columns">
+              <div className="column">
+                <a className="button is-info">Google</a>
+              </div>
+              <div className="column">
+                <a className="button is-warning">Facebook</a>
+              </div>
+              <div className="column">
+                <a className="button is-danger">Delete Account</a>
+              </div>
+            </div>
           </div>
         </div>
+        <div className="ajaxloader">{ajaxProcessing && <SvgLoader />}</div>
       </div>
     )
   }
