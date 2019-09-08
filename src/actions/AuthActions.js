@@ -1,6 +1,7 @@
 import {
   CSS_CLASS_SUCCESS,
   CSS_CLASS_WARNING,
+  CSS_CLASS_DANGER,
   RE_CREATE_ACCOUNT
 } from 'constants/AppConstants'
 import { TEXT_GOOGLE, TEXT_FACEBOOK } from 'constants/AppLanguage'
@@ -146,9 +147,9 @@ export const loginSocial = (authResponse, socialType) => {
         socialId = authResponse.userID
       }
 
-      if (socialId === '' || socialId === null) {
+      if (socialId === '' || socialId === null || socialId === undefined) {
         const message = `Error occurred while linking your ${socialType} profile!`
-        dispatchMessage(dispatch, message, null, CSS_CLASS_SUCCESS)
+        dispatchMessage(dispatch, message, null, CSS_CLASS_DANGER)
 
         return []
       }
