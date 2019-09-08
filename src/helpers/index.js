@@ -35,7 +35,6 @@ export const toHours = minutes => {
  * @param {boolean} loggedInAsAdmin
  */
 export const getLoginRedirect = (loggedIn, loggedInAsAdmin) => {
-  console.log(loggedInAsAdmin)
   if (!loggedIn) return '/'
   if (loggedInAsAdmin === true) return '/admin'
   return '/dashboard'

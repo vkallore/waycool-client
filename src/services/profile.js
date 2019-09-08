@@ -4,8 +4,8 @@ import { getLocalStorage } from 'actions'
 
 import { USER_API_KEY } from 'constants/AppConstants'
 
-export const addSocialProfile = ({ ...postData }) => {
-  return request.post('/profile/link_social', postData, {
+export const addSocialProfile = ({ ...putData }) => {
+  return request.put('/profile/link_social', putData, {
     headers: {
       [USER_API_KEY]: getLocalStorage(USER_API_KEY)
     }

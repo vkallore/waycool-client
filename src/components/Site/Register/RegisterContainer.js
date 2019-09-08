@@ -12,6 +12,8 @@ import { TITLE_REGISTER, TEXT_REGISTER } from 'constants/AppLanguage'
 
 import { clearMessage, getGeoLocation } from 'actions'
 
+import { getLoginRedirect } from 'helpers'
+
 const AlertBox = React.lazy(() => import('components/Common/AlertBox'))
 
 class RegisterContainer extends React.Component {
@@ -21,9 +23,9 @@ class RegisterContainer extends React.Component {
   }
 
   render() {
-    const { loggedIn } = this.props
+    const { loggedIn, loggedInAdmin } = this.props
     if (loggedIn) {
-      return <Redirect to="/" />
+      return <Redirect to={getLoginRedirect(loggedIn, loggedInAdmin)} />
     }
     const {
       ajaxProcessing,
@@ -66,6 +68,7 @@ class RegisterContainer extends React.Component {
 
 const mapStateToProps = state => ({
   loggedIn: state.common.loggedIn,
+  loggedInAdmin: state.common.loggedInAdmin,
   ajaxProcessing: state.common.ajaxProcessing,
   gettingLocation: state.common.gettingLocation,
   formFields: state.forms.register,

@@ -5,6 +5,7 @@ REACT_APP_NODE_PATH=src/
 NODE_PATH=src/
 REACT_APP_API_URL=http://localhost:4545
 PER_PAGE=10
+REACT_APP_GOOGLE_CLIENT_ID=GOOGLE_CLIENT_ID_FOR_WAYCOOL_DOT_COM
 ```
 
 # nginx configuration
@@ -129,6 +130,40 @@ server {
     include pmt-config/pmt-proxy-delete.conf;
 
     proxy_pass http://127.0.0.1:5080/api/;
+  }
+}
+```
+
+# Social Login
+
+`waycool.com` is added as verified domain for social logins. In order to run, it needs to listen to React App (while development). A proxy forward is set for the same.
+
+```
+server {
+	listen 80;
+	listen [::]:80;
+
+  server_name waycool.com;
+
+  proxy_cache_bypass $http_upgrade;
+
+  proxy_redirect on;
+
+  location / {
+    proxy_pass http://localhost:3000/;
+  }
+
+  # SockJS proxying
+  location /sockjs-node/ {
+    proxy_set_header X-Real-IP  $remote_addr;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header Host $host;
+
+    proxy_pass http://localhost:3000/sockjs-node/;
+
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
   }
 }
 ```

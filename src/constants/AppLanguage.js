@@ -5,6 +5,8 @@ export const TEXT_REGISTER = 'Create Account'
 export const TEXT_RE_REGISTER = 'Re-Create Account'
 export const TITLE_LOGIN = `${TEXT_LOGIN} ${TITLE_DASH} ${APP_NAME}`
 export const TITLE_REGISTER = `${TEXT_REGISTER} ${TITLE_DASH} ${APP_NAME}`
+export const TEXT_LINKED_TO = 'Linked to'
+export const TEXT_GOOGLE = 'Google'
 
 /* Dashboard */
 export const TEXT_LOGOUT = 'Logout'

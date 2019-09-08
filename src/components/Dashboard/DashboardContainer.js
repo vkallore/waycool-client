@@ -3,10 +3,15 @@ import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 
 import { SvgLoader } from 'components/Common/Loaders'
+import { LoginGoogle } from 'components/Common/SocialProfile'
 
 import { clearMessage } from 'actions'
 import { getLoginRedirect } from 'helpers'
-import { getProfileDetails, deleteProfile } from 'actions/ProfileActions'
+import {
+  getProfileDetails,
+  deleteProfile,
+  socialConnectResponse
+} from 'actions/ProfileActions'
 import {
   FIELD_AGE,
   FIELD_USERNAME,
@@ -28,10 +33,12 @@ class DashboardContainer extends React.Component {
       name: '',
       age: '',
       gender: '',
-      address: ''
+      address: '',
+      google_uid: ''
     }
 
     this.getData = this.getData.bind(this)
+    this.connectSocial = this.connectSocial.bind(this)
   }
 
   getData = async () => {
@@ -43,12 +50,29 @@ class DashboardContainer extends React.Component {
     this.setState(newState)
   }
 
+  connectSocial = async (authResponse, socialType) => {
+    const { socialConnectResponse } = this.props
+
+    const socialResponse = await socialConnectResponse(authResponse, socialType)
+    const { google_uid } = socialResponse
+    this.setState({ google_uid })
+  }
+
   componentDidMount() {
     this.getData()
   }
 
   render() {
-    const { email, userid: username, name, age, gender, address } = this.state
+    const {
+      email,
+      userid: username,
+      name,
+      age,
+      gender,
+      address,
+      google_uid
+    } = this.state
+
     const {
       ajaxProcessing,
       deleteProfile,
@@ -100,19 +124,30 @@ class DashboardContainer extends React.Component {
                   </tr>
                 </tbody>
               </table>
-              <div className="columns">
-                <div className="column">
-                  <a className="button is-info">Google</a>
+              {email !== '' ? (
+                <div className="columns">
+                  <div className="column">
+                    <LoginGoogle
+                      buttonClass="button"
+                      buttonText="Connect"
+                      socialConnectResponse={this.connectSocial}
+                      renderPlugin={
+                        google_uid === '' ||
+                        google_uid === undefined ||
+                        google_uid === null
+                      }
+                    />
+                  </div>
+                  <div className="column">
+                    <a className="button is-warning">Facebook</a>
+                  </div>
+                  <div className="column">
+                    <a className="button is-danger" onClick={deleteProfile}>
+                      Delete Account
+                    </a>
+                  </div>
                 </div>
-                <div className="column">
-                  <a className="button is-warning">Facebook</a>
-                </div>
-                <div className="column">
-                  <a className="button is-danger" onClick={deleteProfile}>
-                    Delete Account
-                  </a>
-                </div>
-              </div>
+              ) : null}
             </div>
           </div>
           <div className="ajaxloader">{ajaxProcessing && <SvgLoader />}</div>
@@ -143,8 +178,8 @@ export default withRouter(
     {
       getProfileDetails,
       deleteProfile,
-      clearMessage
-      //, paginate, resetListingData
+      clearMessage,
+      socialConnectResponse
     }
   )(DashboardContainer)
 )
