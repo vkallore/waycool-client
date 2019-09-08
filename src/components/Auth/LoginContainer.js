@@ -7,10 +7,14 @@ import { login, loginSocial } from 'actions/AuthActions'
 
 import LoginForm from 'components/Auth/LoginForm'
 
-import { LoginGoogle } from 'components/Common/SocialProfile'
+import { LoginGoogle, LoginFacebook } from 'components/Common/SocialProfile'
 
 import { FORM_LOGIN } from 'constants/AppForms'
-import { TITLE_LOGIN, TEXT_LOGIN } from 'constants/AppLanguage'
+import {
+  TITLE_LOGIN,
+  TEXT_LOGIN,
+  TEXT_LOGIN_USING
+} from 'constants/AppLanguage'
 
 import { clearMessage } from 'actions'
 
@@ -59,10 +63,17 @@ class LoginContainer extends React.Component {
           </div>
         </div>
         <div className="columns is-centered has-text-centered">
-          <div className="column">
+          <div className="column is-one-quarter">
             <LoginGoogle
               buttonClass="button"
-              buttonText="Login using"
+              buttonText={TEXT_LOGIN_USING}
+              socialConnectResponse={loginSocial}
+            />
+          </div>
+          <div className="column is-one-quarter">
+            <LoginFacebook
+              buttonClass="button"
+              buttonText={TEXT_LOGIN_USING}
               socialConnectResponse={loginSocial}
             />
           </div>

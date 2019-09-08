@@ -3,7 +3,7 @@ import {
   CSS_CLASS_WARNING,
   RE_CREATE_ACCOUNT
 } from 'constants/AppConstants'
-import { TEXT_GOOGLE } from 'constants/AppLanguage'
+import { TEXT_GOOGLE, TEXT_FACEBOOK } from 'constants/AppLanguage'
 import { FORM_LOGIN, FORM_REGISTER } from 'constants/AppForms'
 import {
   errorHandler,
@@ -130,14 +130,27 @@ export const loginSocial = (authResponse, socialType) => {
       let socialId = ''
       if (socialType === TEXT_GOOGLE) {
         if (authResponse.error) {
-          errorHandler(
-            dispatch,
-            `Error occurred while linking your ${socialType} profile!`,
-            true
-          )
+          const errorMsg = `${socialType} Error: ${authResponse.error}`
+          errorHandler(dispatch, errorMsg, true)
+
           return []
         }
         socialId = authResponse.googleId
+      } else if (socialType === TEXT_FACEBOOK) {
+        if (authResponse.error) {
+          const errorMsg = `${socialType} Error: ${authResponse.error.message}`
+          errorHandler(dispatch, errorMsg, true)
+
+          return []
+        }
+        socialId = authResponse.userID
+      }
+
+      if (socialId === '' || socialId === null) {
+        const message = `Error occurred while linking your ${socialType} profile!`
+        dispatchMessage(dispatch, message, null, CSS_CLASS_SUCCESS)
+
+        return []
       }
 
       dispatch(setAjaxProcessing(true))

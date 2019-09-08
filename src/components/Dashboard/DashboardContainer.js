@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 
 import { SvgLoader } from 'components/Common/Loaders'
-import { LoginGoogle } from 'components/Common/SocialProfile'
+import { LoginGoogle, LoginFacebook } from 'components/Common/SocialProfile'
 
 import { clearMessage } from 'actions'
 import { getLoginRedirect } from 'helpers'
@@ -20,6 +20,8 @@ import {
   FIELD_ADDRESS,
   FIELD_NAME
 } from 'constants/AppForms'
+
+import { TEXT_CONNECT } from 'constants/AppLanguage'
 
 const AlertBox = React.lazy(() => import('components/Common/AlertBox'))
 
@@ -70,7 +72,8 @@ class DashboardContainer extends React.Component {
       age,
       gender,
       address,
-      google_uid
+      google_uid,
+      facebook_uid
     } = this.state
 
     const {
@@ -94,42 +97,44 @@ class DashboardContainer extends React.Component {
       <>
         <div className="container">
           <div className="columns">
-            <div className="column is-half table-container">
-              <table className="table is-fullwidth">
-                <tbody>
-                  <tr>
-                    <th>{FIELD_EMAIL}</th>
-                    <td>{email}</td>
-                  </tr>
-                  <tr>
-                    <th>{FIELD_USERNAME}</th>
-                    <td>{username}</td>
-                  </tr>
+            <div className="column is-half">
+              <div className="table-container">
+                <table className="table is-fullwidth">
+                  <tbody>
+                    <tr>
+                      <th>{FIELD_EMAIL}</th>
+                      <td>{email}</td>
+                    </tr>
+                    <tr>
+                      <th>{FIELD_USERNAME}</th>
+                      <td>{username}</td>
+                    </tr>
 
-                  <tr>
-                    <th>{FIELD_NAME}</th>
-                    <td>{name}</td>
-                  </tr>
-                  <tr>
-                    <th>{FIELD_AGE}</th>
-                    <td>{age}</td>
-                  </tr>
-                  <tr>
-                    <th>{FIELD_GENDER}</th>
-                    <td>{gender}</td>
-                  </tr>
-                  <tr>
-                    <th>{FIELD_ADDRESS}</th>
-                    <td>{address}</td>
-                  </tr>
-                </tbody>
-              </table>
+                    <tr>
+                      <th>{FIELD_NAME}</th>
+                      <td>{name}</td>
+                    </tr>
+                    <tr>
+                      <th>{FIELD_AGE}</th>
+                      <td>{age}</td>
+                    </tr>
+                    <tr>
+                      <th>{FIELD_GENDER}</th>
+                      <td>{gender}</td>
+                    </tr>
+                    <tr>
+                      <th>{FIELD_ADDRESS}</th>
+                      <td>{address}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               {email !== '' ? (
                 <div className="columns">
                   <div className="column">
                     <LoginGoogle
                       buttonClass="button"
-                      buttonText="Connect"
+                      buttonText={TEXT_CONNECT}
                       socialConnectResponse={this.connectSocial}
                       renderPlugin={
                         google_uid === '' ||
@@ -139,7 +144,16 @@ class DashboardContainer extends React.Component {
                     />
                   </div>
                   <div className="column">
-                    <a className="button is-warning">Facebook</a>
+                    <LoginFacebook
+                      buttonClass="button"
+                      buttonText={TEXT_CONNECT}
+                      socialConnectResponse={this.connectSocial}
+                      renderPlugin={
+                        facebook_uid === '' ||
+                        facebook_uid === undefined ||
+                        facebook_uid === null
+                      }
+                    />
                   </div>
                   <div className="column">
                     <a className="button is-danger" onClick={deleteProfile}>
