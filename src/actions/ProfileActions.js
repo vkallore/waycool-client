@@ -18,6 +18,8 @@ import { CSS_CLASS_SUCCESS } from 'constants/AppConstants'
 export const getProfileDetails = () => {
   return async dispatch => {
     try {
+      dispatch(clearMessage())
+
       dispatch(setAjaxProcessing(true))
 
       /**
@@ -51,7 +53,6 @@ export const socialConnectResponse = (authResponse, socialType) => {
     try {
       let socialId = ''
       if (socialType === 'Google') {
-        console.log(authResponse)
         if (authResponse.error) {
           errorHandler(
             dispatch,
@@ -62,6 +63,8 @@ export const socialConnectResponse = (authResponse, socialType) => {
         }
         socialId = authResponse.googleId
       }
+
+      dispatch(clearMessage())
 
       dispatch(setAjaxProcessing(true))
 

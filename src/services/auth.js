@@ -9,6 +9,14 @@ export const doLogin = ({ ...formData }) => {
 }
 
 /**
+ * Login
+ * @param {object}
+ */
+export const socialLogin = ({ ...formData }) => {
+  return request.post('auth/social_login', formData)
+}
+
+/**
  * Register
  * @param {object}
  */

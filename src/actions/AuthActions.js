@@ -3,6 +3,7 @@ import {
   CSS_CLASS_WARNING,
   RE_CREATE_ACCOUNT
 } from 'constants/AppConstants'
+import { TEXT_GOOGLE } from 'constants/AppLanguage'
 import { FORM_LOGIN, FORM_REGISTER } from 'constants/AppForms'
 import {
   errorHandler,
@@ -14,7 +15,7 @@ import {
   checkLoggedInStatus,
   setLoggedIn
 } from 'actions'
-import { doLogin, doRegister } from 'services/auth'
+import { doLogin, socialLogin, doRegister } from 'services/auth'
 
 /**
  * Login form
@@ -113,6 +114,63 @@ export const logout = () => {
   }
 }
 
+/**
+ * Confirm the account re-creation
+ */
 const confirmReCreate = () => {
   return { type: RE_CREATE_ACCOUNT }
+}
+
+/**
+ * Social login to profile
+ */
+export const loginSocial = (authResponse, socialType) => {
+  return async dispatch => {
+    try {
+      let socialId = ''
+      if (socialType === TEXT_GOOGLE) {
+        if (authResponse.error) {
+          errorHandler(
+            dispatch,
+            `Error occurred while linking your ${socialType} profile!`,
+            true
+          )
+          return []
+        }
+        socialId = authResponse.googleId
+      }
+
+      dispatch(setAjaxProcessing(true))
+
+      /**
+       * Check whether user is already logged in or not
+       */
+      const statusIsLoggedIn = await checkLoggedInStatus(dispatch, false)
+      if (statusIsLoggedIn) {
+        return []
+      }
+
+      const { data: userData } = await socialLogin({
+        social_uid: socialId,
+        social_site: socialType
+      })
+
+      const { api_key, is_admin, message } = userData
+      if (api_key) {
+        dispatch(resetForm(FORM_LOGIN))
+
+        await dispatchMessage(dispatch, message, null, CSS_CLASS_SUCCESS)
+
+        setUserData(userData)
+
+        dispatch(setLoggedIn(true, is_admin))
+        dispatch(setAjaxProcessing(false))
+      }
+      return userData
+    } catch (error) {
+      errorHandler(dispatch, error, true)
+      dispatch(setAjaxProcessing(false))
+      return []
+    }
+  }
 }

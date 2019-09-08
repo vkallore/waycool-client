@@ -57,7 +57,6 @@ export default withRouter(
     mapStateToProps,
     {
       clearMessage
-      //, paginate, resetListingData
     }
   )(AdminContainer)
 )

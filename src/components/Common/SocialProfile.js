@@ -9,7 +9,7 @@ export const LoginGoogle = ({
   buttonText = '',
   buttonClass = '',
   socialConnectResponse,
-  renderPlugin
+  renderPlugin = true
 }) => {
   const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 

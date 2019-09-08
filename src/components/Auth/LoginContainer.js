@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
-import { login } from 'actions/AuthActions'
+import { login, loginSocial } from 'actions/AuthActions'
 
 import LoginForm from 'components/Auth/LoginForm'
+
+import { LoginGoogle } from 'components/Common/SocialProfile'
 
 import { FORM_LOGIN } from 'constants/AppForms'
 import { TITLE_LOGIN, TEXT_LOGIN } from 'constants/AppLanguage'
@@ -37,7 +39,8 @@ class LoginContainer extends React.Component {
       apiResponse,
       apiResponseType,
       allowMessageClear,
-      clearMessage
+      clearMessage,
+      loginSocial
     } = this.props
     return (
       <React.Fragment>
@@ -52,6 +55,15 @@ class LoginContainer extends React.Component {
               ajaxProcessing={ajaxProcessing}
               formFields={formFields}
               formModel={FORM_LOGIN}
+            />
+          </div>
+        </div>
+        <div className="columns is-centered has-text-centered">
+          <div className="column">
+            <LoginGoogle
+              buttonClass="button"
+              buttonText="Login using"
+              socialConnectResponse={loginSocial}
             />
           </div>
         </div>
@@ -79,6 +91,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { login, clearMessage }
+    { login, clearMessage, loginSocial }
   )(LoginContainer)
 )
