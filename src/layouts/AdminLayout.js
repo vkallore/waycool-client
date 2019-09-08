@@ -1,24 +1,27 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 
-import DashboardNavItems from 'components/Dashboard/Common/DashboardNavItems'
+import AdminSideNav from 'components/Admin/Common/AdminSideNav'
+import AdminNavItems from 'components/Admin/Common/AdminNavItems'
 import ErrorBoundary from 'components/Common/ErrorBoundary'
 import Footer from 'components/Common/Footer'
 
-import { TITLE_DASHBOARD } from 'constants/AppLanguage'
+import { TEXT_ADMIN_DASHBOARD } from 'constants/AppLanguage'
 
-const DashboardLayout = ({ children, match }) => {
+const AdminLayout = ({ children }) => {
   return (
     <>
       <Helmet>
-        <title>{TITLE_DASHBOARD}</title>
+        <title>{TEXT_ADMIN_DASHBOARD}</title>
       </Helmet>
 
-      <DashboardNavItems />
+      <AdminNavItems />
 
       <div className="container">
         <div className="columns">
-          <div className="column column is-2"></div>
+          <div className="column column is-3">
+            <AdminSideNav />
+          </div>
           <div className="column">
             <div className="section">
               <ErrorBoundary>{children}</ErrorBoundary>
@@ -31,4 +34,4 @@ const DashboardLayout = ({ children, match }) => {
   )
 }
 
-export default DashboardLayout
+export default AdminLayout

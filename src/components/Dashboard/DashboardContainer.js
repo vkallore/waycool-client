@@ -5,6 +5,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { SvgLoader } from 'components/Common/Loaders'
 
 import { clearMessage } from 'actions'
+import { getLoginRedirect } from 'helpers'
 import { getProfileDetails, deleteProfile } from 'actions/ProfileActions'
 import {
   FIELD_AGE,
@@ -54,8 +55,17 @@ class DashboardContainer extends React.Component {
       apiResponse,
       apiResponseType,
       allowMessageClear,
-      clearMessage
+      clearMessage,
+      loggedIn,
+      loggedInAdmin
     } = this.props
+
+    if (loggedIn) {
+      const redirectPath = getLoginRedirect(loggedIn, loggedInAdmin)
+      if (window.location.pathname !== redirectPath) {
+        return <Redirect to={redirectPath} />
+      }
+    }
     return (
       <>
         <div className="container">
@@ -120,6 +130,7 @@ class DashboardContainer extends React.Component {
 
 const mapStateToProps = state => ({
   loggedIn: state.common.loggedIn,
+  loggedInAdmin: state.common.loggedInAdmin,
   ajaxProcessing: state.common.ajaxProcessing,
   apiResponse: state.common.apiResponse,
   apiResponseType: state.common.apiResponseType,

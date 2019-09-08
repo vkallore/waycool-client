@@ -4,16 +4,8 @@ import { getLocalStorage } from 'actions'
 
 import { USER_API_KEY } from 'constants/AppConstants'
 
-export const addSocialProfile = ({ ...postData }) => {
-  return request.post('/profile/link_social', postData, {
-    headers: {
-      [USER_API_KEY]: getLocalStorage(USER_API_KEY)
-    }
-  })
-}
-
-export const getProfile = ({ ...params }) => {
-  return request.get('/profile/', {
+export const getLoginCountByType = ({ ...params }) => {
+  return request.get('/admin/user-login-list', {
     params: params,
     headers: {
       [USER_API_KEY]: getLocalStorage(USER_API_KEY)
@@ -21,8 +13,18 @@ export const getProfile = ({ ...params }) => {
   })
 }
 
-export const doDeleteProfile = () => {
-  return request.delete(`/profile/`, {
+export const getLoginLog = ({ ...params }) => {
+  return request.get('/admin/user-login-logs', {
+    params: params,
+    headers: {
+      [USER_API_KEY]: getLocalStorage(USER_API_KEY)
+    }
+  })
+}
+
+export const getDeletedAccount = ({ ...params }) => {
+  return request.get('/admin/deleted-accounts', {
+    params: params,
     headers: {
       [USER_API_KEY]: getLocalStorage(USER_API_KEY)
     }

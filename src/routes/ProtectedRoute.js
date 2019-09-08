@@ -3,6 +3,7 @@ import { Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import DashboardLayout from 'layouts/DashboardLayout'
+import AdminLayout from 'layouts/AdminLayout'
 import { ContentLoader } from 'components/Common/Loaders'
 
 import SiteLayout from 'layouts/SiteLayout'
@@ -16,28 +17,40 @@ const ProtectedRoute = ({
   lazyLoad = true,
   ...props
 }) => {
-  const { loggedIn } = props
-  return loggedIn ? (
-    <DashboardLayout>
-      <Suspense fallback={<ContentLoader />}>
-        {!lazyLoad ? (
-          <Route {...props} component={Component} />
-        ) : (
-          <Route {...props} render={() => <Component />} />
-        )}
-      </Suspense>
-    </DashboardLayout>
-  ) : (
-    <SiteLayout>
-      <Suspense fallback={<ContentLoader />}>
-        <Route {...props} render={() => <LoginContainer />} />
-      </Suspense>
-    </SiteLayout>
-  )
+  const { loggedIn, loggedInAdmin } = props
+  if (loggedIn) {
+    let LoggedInLayout = null
+    if (loggedInAdmin) {
+      LoggedInLayout = AdminLayout
+    } else {
+      LoggedInLayout = DashboardLayout
+    }
+
+    return (
+      <LoggedInLayout>
+        <Suspense fallback={<ContentLoader />}>
+          {!lazyLoad ? (
+            <Route {...props} component={Component} />
+          ) : (
+            <Route {...props} render={() => <Component />} />
+          )}
+        </Suspense>
+      </LoggedInLayout>
+    )
+  } else {
+    return (
+      <SiteLayout>
+        <Suspense fallback={<ContentLoader />}>
+          <Route {...props} render={() => <LoginContainer />} />
+        </Suspense>
+      </SiteLayout>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-  loggedIn: state.common.loggedIn
+  loggedIn: state.common.loggedIn,
+  loggedInAdmin: state.common.loggedInAdmin
 })
 
 export default withRouter(connect(mapStateToProps)(ProtectedRoute))

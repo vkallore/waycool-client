@@ -28,3 +28,15 @@ export const toHours = minutes => {
   minutes = typeof minutes === 'number' ? minutes : 0
   return `${Math.floor(minutes / 60)}h ${minutes % 60}m`
 }
+
+/**
+ * Get the redirect URL
+ * @param {boolean} loggedIn
+ * @param {boolean} loggedInAsAdmin
+ */
+export const getLoginRedirect = (loggedIn, loggedInAsAdmin) => {
+  console.log(loggedInAsAdmin)
+  if (!loggedIn) return '/'
+  if (loggedInAsAdmin === true) return '/admin'
+  return '/dashboard'
+}

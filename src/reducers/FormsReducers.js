@@ -24,13 +24,6 @@ const initialState = {
     recreate_confirm: '',
     regBtnText: TEXT_REGISTER
   }
-  // timeLog: {
-  //   category: '',
-  //   duration: '',
-  //   taskName: '',
-  //   startDate: '',
-  //   startTime: ''
-  // }
 }
 
 export const formsReducer = (state = initialState, action) => {
@@ -57,7 +50,6 @@ export const formsReducer = (state = initialState, action) => {
         }
       }
     case RE_CREATE_ACCOUNT:
-      console.log(TEXT_RE_REGISTER)
       return {
         ...state,
         register: {

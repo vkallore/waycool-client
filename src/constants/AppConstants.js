@@ -9,6 +9,7 @@ export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 
 /* Header/Localstorage */
 export const USER_API_KEY = 'x-api-key'
+export const USER_IS_ADMIN = 'user-admin'
 
 /* HTML/CSS related constants */
 export const CSS_CLASS_SUCCESS = 'success'

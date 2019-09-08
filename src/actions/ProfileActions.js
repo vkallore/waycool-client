@@ -5,19 +5,12 @@ import {
   clearMessage,
   dispatchMessage,
   setAjaxProcessing,
-  checkLoggedInStatus,
-  setListingData,
-  buildApiParams
+  checkLoggedInStatus
 } from 'actions'
 
 import { logout } from 'actions/AuthActions'
 
-import { toISOString } from 'helpers'
-
 import { CSS_CLASS_SUCCESS } from 'constants/AppConstants'
-import { TIME_LOG_DELETE_SUCCESS } from 'constants/AppMessage'
-
-const perPage = process.env.PER_PAGE || 10
 
 /**
  * Get profile details

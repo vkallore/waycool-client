@@ -1,30 +1,23 @@
-import { getTimeLog, timeLogDelete, getCategories } from 'services/timeLog'
+import {
+  getLoginCountByType,
+  getLoginLog,
+  getDeletedAccount
+} from 'services/admin'
 
 import {
   errorHandler,
-  clearMessage,
-  dispatchMessage,
   setAjaxProcessing,
   checkLoggedInStatus,
   setListingData,
   buildApiParams
 } from 'actions'
 
-import { toISOString } from 'helpers'
-
-import { CSS_CLASS_SUCCESS } from 'constants/AppConstants'
-import {
-  TIME_LOG_ADD_SUCCESS,
-  TIME_LOG_DELETE_SUCCESS
-} from 'constants/AppMessage'
-import { FORM_TIME_LOG } from 'constants/AppForms'
-
 const perPage = process.env.PER_PAGE || 10
 
 /**
- * Get time logs
+ * Get Login Count By Types
  */
-export const getTimeLogs = () => {
+export const getLoginCountByTypes = () => {
   return async dispatch => {
     try {
       dispatch(setAjaxProcessing(true))
@@ -39,7 +32,7 @@ export const getTimeLogs = () => {
 
       const params = buildApiParams()
 
-      const response = await getTimeLog(params)
+      const response = await getLoginCountByType(params)
 
       dispatch(setAjaxProcessing(false))
 
@@ -48,7 +41,7 @@ export const getTimeLogs = () => {
       dispatch(
         setListingData({
           data: data.data,
-          totalRecords: data.totalRecords,
+          totalRecords: data._meta.total_results,
           perPage
         })
       )
@@ -63,15 +56,12 @@ export const getTimeLogs = () => {
 }
 
 /**
- * Delete time log
- * @param {string} timeLogId
+ * Get Login logs
  */
-export const deleteTimeLog = timeLogId => {
+export const getLoginLogs = () => {
   return async dispatch => {
     try {
       dispatch(setAjaxProcessing(true))
-
-      dispatch(clearMessage())
 
       /**
        * Check whether user is already logged in or not
@@ -81,18 +71,23 @@ export const deleteTimeLog = timeLogId => {
         return []
       }
 
-      const response = await timeLogDelete(timeLogId)
+      const params = buildApiParams()
+
+      const response = await getLoginLog(params)
 
       dispatch(setAjaxProcessing(false))
-      dispatchMessage(
-        dispatch,
-        TIME_LOG_DELETE_SUCCESS,
-        null,
-        CSS_CLASS_SUCCESS,
-        true
+
+      const data = response.data || []
+
+      dispatch(
+        setListingData({
+          data: data.data,
+          totalRecords: data._meta.total_results,
+          perPage
+        })
       )
 
-      return response.data
+      return []
     } catch (error) {
       errorHandler(dispatch, error, true)
       dispatch(setAjaxProcessing(false))
@@ -102,10 +97,9 @@ export const deleteTimeLog = timeLogId => {
 }
 
 /**
- * Get all categories
- * @param {object} - Filter options
+ * Get Login logs
  */
-export const allCategories = () => {
+export const getDeletedAccounts = () => {
   return async dispatch => {
     try {
       dispatch(setAjaxProcessing(true))
@@ -114,16 +108,27 @@ export const allCategories = () => {
        * Check whether user is already logged in or not
        */
       const statusIsLoggedIn = await checkLoggedInStatus(dispatch)
-
       if (!statusIsLoggedIn) {
         return []
       }
 
-      const response = await getCategories()
+      const params = buildApiParams()
+
+      const response = await getDeletedAccount(params)
 
       dispatch(setAjaxProcessing(false))
 
-      return response.data
+      const data = response.data || []
+
+      dispatch(
+        setListingData({
+          data: data.data,
+          totalRecords: data._meta.total_results,
+          perPage
+        })
+      )
+
+      return []
     } catch (error) {
       errorHandler(dispatch, error, true)
       dispatch(setAjaxProcessing(false))

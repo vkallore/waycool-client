@@ -3,13 +3,11 @@ import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import Pagination from 'react-bulma-components/lib/components/pagination'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
 
-import { getTimeLogs, deleteTimeLog } from 'actions/TimeLogActions'
+import { getLoginCountByTypes } from 'actions/AdminActions'
 
-import { TEXT_TIME_LOG, TITLE_TIME_LOG } from 'constants/AppLanguage'
+import { TITLE_LOGIN_BY_TYPE, TEXT_LOGIN_BY_TYPE } from 'constants/AppLanguage'
 import { clearMessage, paginate, resetListingData } from 'actions'
 
 import { SvgLoader } from 'components/Common/Loaders'
@@ -18,27 +16,18 @@ import { toLocaleString } from 'helpers'
 
 const AlertBox = React.lazy(() => import('components/Common/AlertBox'))
 
-class TimeLogList extends React.Component {
+class LoginCountByType extends React.Component {
   constructor(props) {
     super(props)
 
     this.getData = this.getData.bind(this)
     this.paginate = this.paginate.bind(this)
-    this.deleteTimeLog = this.deleteTimeLog.bind(this)
   }
 
   getData = async () => {
-    const { getTimeLogs } = this.props
+    const { getLoginCountByTypes } = this.props
 
-    await getTimeLogs()
-  }
-
-  deleteTimeLog = async timeLogId => {
-    const { deleteTimeLog } = this.props
-    const response = await deleteTimeLog(timeLogId)
-    if (response.code === '200') {
-      await this.getData()
-    }
+    await getLoginCountByTypes()
   }
 
   paginate(page) {
@@ -79,14 +68,13 @@ class TimeLogList extends React.Component {
       perPage
     } = this.props
 
-    const htmlUserTimeLogs =
+    const htmlLoginCountByType =
       data.length > 0 ? (
-        data.map((userTimeLog, index) => {
+        data.map((loginCountByType, index) => {
           return (
-            <TimeLog
-              key={userTimeLog.id}
-              timeLog={userTimeLog}
-              deleteTimeLog={this.deleteTimeLog}
+            <LoginCountByTypeRow
+              key={loginCountByType.id}
+              loginCountByType={loginCountByType}
               currentPage={currentPage}
               perPage={perPage}
               index={index}
@@ -104,26 +92,28 @@ class TimeLogList extends React.Component {
     return (
       <>
         <Helmet>
-          <title>{TITLE_TIME_LOG}</title>
+          <title>{TITLE_LOGIN_BY_TYPE}</title>
         </Helmet>
-        <h1 className="title">{TEXT_TIME_LOG}</h1>
+        <h1 className="title">{TEXT_LOGIN_BY_TYPE}</h1>
 
         <div className="table__wrapper">
           <table className="table responsive-table">
             <thead>
               <tr className="has-text-centered is-vertical-center">
                 <th rowSpan={2}>#</th>
-                <th rowSpan={2}>Category</th>
-                <th rowSpan={2}>Task</th>
-                <th colSpan={2}>Time</th>
-                <th rowSpan={2}>Action</th>
+                <th rowSpan={2}>Unique ID</th>
+                <th rowSpan={2}>Email</th>
+                <th rowSpan={2}>Name</th>
+                <th rowSpan={2}>User Created On</th>
+                <th colSpan={3}>Login Type</th>
               </tr>
               <tr className="has-text-centered is-vertical-center">
-                <th>Start</th>
-                <th>End</th>
+                <th>Email</th>
+                <th>Facebook</th>
+                <th>Google</th>
               </tr>
             </thead>
-            <tbody>{htmlUserTimeLogs}</tbody>
+            <tbody>{htmlLoginCountByType}</tbody>
           </table>
         </div>
 
@@ -148,23 +138,19 @@ class TimeLogList extends React.Component {
   }
 }
 
-const TimeLog = props => {
-  const { timeLog, deleteTimeLog, currentPage, perPage, index } = props
-  const timeLogStartTime = toLocaleString(timeLog.startTime)
-  const timeLogEndTime = toLocaleString(timeLog.endTime)
-  const timeLogId = timeLog.id
+const LoginCountByTypeRow = props => {
+  const { loginCountByType, currentPage, perPage, index } = props
+  const userCreatedAt = toLocaleString(loginCountByType.created_at)
   return (
-    <tr className="has-text-centered">
+    <tr>
       <td>{perPage * (currentPage - 1) + index + 1}</td>
-      <td>{timeLog.category}</td>
-      <td>{timeLog.taskName}</td>
-      <td>{timeLogStartTime}</td>
-      <td>{timeLogEndTime}</td>
-      <td>
-        <a onClick={() => deleteTimeLog(timeLogId)}>
-          <FontAwesomeIcon icon={faTimes} />
-        </a>
-      </td>
+      <td>{loginCountByType.user_id}</td>
+      <td>{loginCountByType.email_id}</td>
+      <td>{loginCountByType.fullname}</td>
+      <td>{userCreatedAt}</td>
+      <td className="has-text-centered">{loginCountByType.email}</td>
+      <td className="has-text-centered">{loginCountByType.facebook}</td>
+      <td className="has-text-centered">{loginCountByType.google}</td>
     </tr>
   )
 }
@@ -184,6 +170,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { getTimeLogs, clearMessage, deleteTimeLog, paginate, resetListingData }
-  )(TimeLogList)
+    { getLoginCountByTypes, clearMessage, paginate, resetListingData }
+  )(LoginCountByType)
 )

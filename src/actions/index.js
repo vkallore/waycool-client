@@ -7,6 +7,7 @@ import {
   SET_AJAX_PROCESSING,
   CHANGE_FORM,
   USER_API_KEY,
+  USER_IS_ADMIN,
   SET_LOGGED_IN,
   SHOW_MESSAGE,
   CSS_CLASS_DANGER,
@@ -174,10 +175,13 @@ export const setAjaxProcessing = ajaxProcessing => {
 
 /**
  * Set state as logged in TRUE/FALSE
+ * &
+ * Set logged in as admin or not
  * @param {boolean} loggedIn
+ * @param {boolean} isAdmin
  */
-export const setLoggedIn = loggedIn => {
-  return { type: SET_LOGGED_IN, loggedIn }
+export const setLoggedIn = (loggedIn, isAdmin) => {
+  return { type: SET_LOGGED_IN, loggedIn, isAdmin }
 }
 
 /**
@@ -185,9 +189,10 @@ export const setLoggedIn = loggedIn => {
  * @param  {...any} loginData
  */
 export const setUserData = ({ ...loginData }) => {
-  const { api_key } = loginData
+  const { api_key, is_admin } = loginData
 
   setLocalStorage(USER_API_KEY, api_key)
+  setLocalStorage(USER_IS_ADMIN, is_admin)
 }
 
 /**
@@ -222,13 +227,15 @@ export const getLocalStorage = key => {
 export const checkAndSetLogin = async (dispatch, setAsLoggedIn = true) => {
   let isLoggedIn = false
   const userApiKey = await getLocalStorage(USER_API_KEY)
-
+  let userIsAdmin = await getLocalStorage(USER_IS_ADMIN)
+  // String to Boolean
+  userIsAdmin = JSON.parse(userIsAdmin)
   if (userApiKey !== null) {
     isLoggedIn = true
   }
 
   if (setAsLoggedIn === true) {
-    dispatch(setLoggedIn(isLoggedIn))
+    dispatch(setLoggedIn(isLoggedIn, userIsAdmin))
   }
   return isLoggedIn
 }
@@ -278,9 +285,7 @@ export const setListingData = listingData => {
     listingData: {
       ...listingData,
       currentPage: getCurrentPage(),
-      totalPages: Math.ceil(
-        listingData.totalRecords / (listingData.perPage || perPage)
-      )
+      totalPages: Math.ceil(listingData.totalRecords / listingData.perPage)
     }
   }
 }
@@ -330,7 +335,7 @@ export const buildApiParams = () => {
 
   const offset = (currentPage - 1) * perPage
 
-  return { offset, limit: perPage, ...query }
+  return { offset, per_page: perPage, ...query }
 }
 
 const setUserLocationFlag = gettingLocation => {

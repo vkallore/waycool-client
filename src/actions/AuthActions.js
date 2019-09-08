@@ -37,11 +37,12 @@ export const login = ({ username, password }) => {
 
       const { data: userData } = await doLogin({ username, password })
 
-      if (userData.api_key) {
+      const { api_key, is_admin } = userData
+      if (api_key) {
         setUserData(userData)
 
         dispatch(resetForm(FORM_LOGIN))
-        dispatch(setLoggedIn(true))
+        dispatch(setLoggedIn(true, is_admin))
         dispatch(setAjaxProcessing(false))
       }
       return userData
@@ -59,7 +60,6 @@ export const login = ({ username, password }) => {
  * @param {string} password
  */
 export const register = formData => {
-  console.log(formData)
   return async dispatch => {
     dispatch(setAjaxProcessing(true))
 
@@ -108,7 +108,7 @@ export const register = formData => {
  */
 export const logout = () => {
   return dispatch => {
-    dispatch(setLoggedIn(false))
+    dispatch(setLoggedIn(false, false))
     setUserData()
   }
 }

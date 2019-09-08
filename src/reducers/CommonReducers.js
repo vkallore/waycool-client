@@ -23,6 +23,7 @@ const initialState = {
   ajaxProcessing: false,
   gettingLocation: false,
   loggedIn: false,
+  loggedInAdmin: false,
   apiResponse: '',
   apiResponseType: '',
   allowMessageClear: false
@@ -117,6 +118,7 @@ const setAjaxProcessing = (state, action) => {
 const setLoggedIn = (state, action) => {
   return {
     ...state,
-    loggedIn: action.loggedIn
+    loggedIn: action.loggedIn,
+    loggedInAdmin: action.isAdmin
   }
 }

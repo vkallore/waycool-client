@@ -8,6 +8,3 @@ export const LOGGED_IN_NOT =
   'You are not logged in! Or your session timed out. Login again.'
 
 /* Dashboard */
-/* Time Log */
-export const TIME_LOG_ADD_SUCCESS = 'Time log has been added successfully.'
-export const TIME_LOG_DELETE_SUCCESS = 'Time log has been deleted successfully.'

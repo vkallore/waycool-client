@@ -20,6 +20,17 @@ const PageNotFoundContainer = React.lazy(() =>
 const DashboardContainer = React.lazy(() =>
   import('components/Dashboard/DashboardContainer')
 )
+const AdminContainer = React.lazy(() =>
+  import('components/Admin/AdminContainer')
+)
+const LoginCountByType = React.lazy(() =>
+  import('components/Admin/LoginCountByType')
+)
+const DeletedAccounts = React.lazy(() =>
+  import('components/Admin/DeletedAccounts')
+)
+const LoginLogs = React.lazy(() => import('components/Admin/LoginLogs'))
+
 const LogoutView = React.lazy(() => import('components/Auth/LogoutView'))
 
 class Routes extends React.Component {
@@ -41,6 +52,18 @@ class Routes extends React.Component {
           <PublicRoute path="/login" component={LoginContainer} />
 
           <ProtectedRoute path="/dashboard" component={DashboardContainer} />
+
+          <ProtectedRoute path="/admin" component={AdminContainer} />
+          <ProtectedRoute
+            path="/login-count-by-type"
+            component={LoginCountByType}
+          />
+          <ProtectedRoute
+            path="/deleted-accounts"
+            component={DeletedAccounts}
+          />
+          <ProtectedRoute path="/login-logs" component={LoginLogs} />
+
           <ProtectedRoute path="/logout" component={LogoutView} />
 
           <PublicRoute path="*" component={PageNotFoundContainer} />

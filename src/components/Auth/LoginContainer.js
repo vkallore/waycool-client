@@ -12,6 +12,8 @@ import { TITLE_LOGIN, TEXT_LOGIN } from 'constants/AppLanguage'
 
 import { clearMessage } from 'actions'
 
+import { getLoginRedirect } from 'helpers'
+
 const AlertBox = React.lazy(() => import('components/Common/AlertBox'))
 
 class LoginContainer extends React.Component {
@@ -25,9 +27,9 @@ class LoginContainer extends React.Component {
   }
 
   render() {
-    const { loggedIn } = this.props
+    const { loggedIn, loggedInAdmin } = this.props
     if (loggedIn) {
-      return <Redirect to="/dashboard" />
+      return <Redirect to={getLoginRedirect(loggedIn, loggedInAdmin)} />
     }
     const {
       ajaxProcessing,
@@ -66,6 +68,7 @@ class LoginContainer extends React.Component {
 
 const mapStateToProps = state => ({
   loggedIn: state.common.loggedIn,
+  loggedInAdmin: state.common.loggedInAdmin,
   ajaxProcessing: state.common.ajaxProcessing,
   formFields: state.forms.login,
   apiResponse: state.common.apiResponse,
